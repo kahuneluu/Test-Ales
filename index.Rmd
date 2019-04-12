@@ -1,0 +1,68 @@
+---
+title: "Test"
+date: "12/04/2019"
+output: 
+  html_document:
+    toc: TRUE
+    code_folding: "hide"
+    number_sections: TRUE
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, eval = TRUE, error= FALSE, message = FALSE)
+```
+
+#Gapminder Set
+
+Let's play with R Markdown and apply it to the previous pratical exercise
+
+```{r gapminder}
+library(hrbrthemes)
+library(plotly)
+
+#1-Correlation
+library(gapminder)
+library(DT)
+data = gapminder
+datatable(data,rownames = FALSE, filter = "top", options = list(pageLength = 5, scrollX= T))
+
+#Visualisation of the first 6 rows
+head(data) #country(fct), continent(fct), year(int), lifeExp(dbl), pop(int), gdpPerCap(dbl) 
+nrow(data) #nb of rows
+```
+
+## Number of different year
+
+You can also embed plots, for example:
+
+```{r nb_of_year}
+#number of different year?
+library(dplyr)
+data %>%
+  select(year) %>%
+  unique() %>%
+  nrow()
+```
+
+
+```{r plot graph}
+library(ggplot2)
+#basic scatterplot
+data %>%
+  filter(year =="1952")%>%
+  ggplot(aes(x = gdpPercap, y = lifeExp)) + geom_point()
+```
+
+
+***
+##Bubble Chart
+
+```{r bubble chart}
+p = data %>%
+  filter(gdpPercap < 90000) %>%
+  filter( year == 1952) %>%
+  ggplot(aes(x=gdpPercap, y = lifeExp, color = continent, size = pop)) + geom_point(alpha = 0.5)+theme_ipsum()
+
+ggplotly(p)
+  
+```
