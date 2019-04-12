@@ -58,11 +58,10 @@ data %>%
 ##Bubble Chart
 
 ```{r bubble chart}
-p = data %>%
+data %>%
   filter(gdpPercap < 90000) %>%
   filter( year == 1952) %>%
   ggplot(aes(x=gdpPercap, y = lifeExp, color = continent, size = pop)) + geom_point(alpha = 0.5)+theme_ipsum()
 
-ggplotly(p)
   
 ```
